@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
     return DraggableHome(
       // leading: const Icon(Icons.arrow_back_ios),
       title: SizedBox(),
-      toolbarHeight: 10,
+      toolbarHeight: 40,
       // actions: [
       //   IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
       // ],
@@ -35,7 +35,6 @@ class HomePage extends StatelessWidget {
       fullyStretchable: true,
       expandedBody: const CameraPreview(),
       backgroundColor: Colors.white,
-      appBarColor: Colors.teal,
     );
   }
 

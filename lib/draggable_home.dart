@@ -11,6 +11,7 @@ class DraggableHome extends StatefulWidget {
   final double? toolbarHeight;
   final SystemUiOverlayStyle? systemUiOverlayStyle;
   final LinearGradient? gradient;
+  final String imageUrl;
 
   /// Leading: A widget to display before the toolbar's title.
   final Widget? leading;
@@ -95,6 +96,7 @@ class DraggableHome extends StatefulWidget {
   const DraggableHome({
     Key? key,
     this.leading,
+    this.imageUrl = '',
     this.systemUiOverlayStyle,
     this.gradient,
     this.toolbarHeight = kToolbarHeight,
@@ -202,7 +204,7 @@ class _DraggableHomeState extends State<DraggableHome> {
             final bool fullyExpanded = streams[1];
 
             return SliverAppBar(
-              systemOverlayStyle: widget.systemUiOverlayStyle!,
+              systemOverlayStyle: widget.systemUiOverlayStyle,
               toolbarHeight: widget.toolbarHeight!,
               backgroundColor: !fullyCollapsed ? widget.backgroundColor : widget.appBarColor,
               leading: widget.alwaysShowLeadingAndAction
@@ -228,45 +230,56 @@ class _DraggableHomeState extends State<DraggableHome> {
                     ),
               collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  gradient: widget.gradient,
-                ),
-                child: Stack(
-                  children: [
-                    FlexibleSpaceBar(
-                      background: Container(
-                        margin: const EdgeInsets.only(bottom: 0.2),
-                        child: fullyExpanded ? (widget.expandedBody ?? const SizedBox()) : widget.headerWidget,
-                      ),
+              flexibleSpace: Stack(
+                children: [
+                  if (widget.imageUrl.isNotEmpty)
+                    Positioned.fill(
+                        child: Image.network(
+                      widget.imageUrl,
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                    )),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: widget.gradient,
                     ),
-                    Positioned(
-                      bottom: -1,
-                      left: 0,
-                      right: 0,
-                      child: roundedCorner(context),
-                    ),
-                    Positioned(
-                      bottom: 0 + widget.curvedBodyRadius,
-                      child: AnimatedContainer(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        curve: Curves.easeInOutCirc,
-                        duration: const Duration(milliseconds: 100),
-                        height: fullyCollapsed
-                            ? 0
-                            : fullyExpanded
+                    child: Stack(
+                      children: [
+                        FlexibleSpaceBar(
+                          background: Container(
+                            margin: const EdgeInsets.only(bottom: 0.2),
+                            child: fullyExpanded ? (widget.expandedBody ?? const SizedBox()) : widget.headerWidget,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: -1,
+                          left: 0,
+                          right: 0,
+                          child: roundedCorner(context),
+                        ),
+                        Positioned(
+                          bottom: 0 + widget.curvedBodyRadius,
+                          child: AnimatedContainer(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            curve: Curves.easeInOutCirc,
+                            duration: const Duration(milliseconds: 100),
+                            height: fullyCollapsed
                                 ? 0
-                                : kToolbarHeight,
-                        width: MediaQuery.of(context).size.width,
-                        child: fullyCollapsed
-                            ? const SizedBox()
-                            : fullyExpanded
+                                : fullyExpanded
+                                    ? 0
+                                    : kToolbarHeight,
+                            width: MediaQuery.of(context).size.width,
+                            child: fullyCollapsed
                                 ? const SizedBox()
-                                : widget.headerBottomBar ?? Container(),
-                      ),
-                    )
-                  ],
-                ),
+                                : fullyExpanded
+                                    ? const SizedBox()
+                                    : widget.headerBottomBar ?? Container(),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               stretchTriggerOffset: widget.stretchTriggerOffset,
               onStretchTrigger: widget.fullyStretchable
