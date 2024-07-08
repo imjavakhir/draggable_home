@@ -27,7 +27,13 @@ class HomePage extends StatelessWidget {
       // actions: [
       //   IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
       // ],
-      headerWidget: headerWidget(context),
+      headerWidget: Image.network(
+        'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
+        alignment: Alignment.topCenter,
+        width: double.maxFinite,
+        fit: BoxFit.cover,
+        height: 272,
+      ),
       headerBottomBar: headerBottomBarWidget(),
       body: [
         listView(),

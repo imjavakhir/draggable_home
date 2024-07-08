@@ -11,7 +11,7 @@ class DraggableHome extends StatefulWidget {
   final double? toolbarHeight;
   final SystemUiOverlayStyle? systemUiOverlayStyle;
   final LinearGradient? gradient;
-  final String imageUrl;
+  final Widget? imageWidget;
 
   /// Leading: A widget to display before the toolbar's title.
   final Widget? leading;
@@ -96,7 +96,7 @@ class DraggableHome extends StatefulWidget {
   const DraggableHome({
     Key? key,
     this.leading,
-    this.imageUrl = '',
+    this.imageWidget,
     this.systemUiOverlayStyle,
     this.gradient,
     this.toolbarHeight = kToolbarHeight,
@@ -232,13 +232,7 @@ class _DraggableHomeState extends State<DraggableHome> {
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Stack(
                 children: [
-                  if (widget.imageUrl.isNotEmpty)
-                    Positioned.fill(
-                        child: Image.network(
-                      widget.imageUrl,
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                    )),
+                  if (widget.imageWidget != null) widget.imageWidget!,
                   Container(
                     decoration: BoxDecoration(
                       gradient: widget.gradient,
