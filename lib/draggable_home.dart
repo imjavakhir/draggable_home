@@ -229,7 +229,9 @@ class _DraggableHomeState extends State<DraggableHome> {
               collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Container(
-                decoration: BoxDecoration(gradient: widget.gradient, color: Colors.transparent),
+                decoration: BoxDecoration(
+                  gradient: widget.gradient,
+                ),
                 child: Stack(
                   children: [
                     FlexibleSpaceBar(
