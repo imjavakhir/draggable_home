@@ -237,7 +237,13 @@ class _DraggableHomeState extends State<DraggableHome> {
                     FlexibleSpaceBar(
                       background: Container(
                         margin: const EdgeInsets.only(bottom: 0.2),
-                        child: fullyExpanded ? (widget.expandedBody ?? const SizedBox()) : widget.headerWidget,
+                        child: fullyExpanded
+                            ? (widget.expandedBody ??
+                                Image.network(
+                                  "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                                  fit: BoxFit.cover,
+                                ))
+                            : widget.headerWidget,
                       ),
                     ),
                     Positioned(
