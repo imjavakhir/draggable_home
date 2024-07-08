@@ -21,11 +21,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DraggableHome(
-      leading: const Icon(Icons.arrow_back_ios),
-      title: const Text("Draggable Home"),
-      actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
-      ],
+      // leading: const Icon(Icons.arrow_back_ios),
+      title: SizedBox(),
+      toolbarHeight: 10,
+      // actions: [
+      //   IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+      // ],
       headerWidget: headerWidget(context),
       headerBottomBar: headerBottomBarWidget(),
       body: [
@@ -58,10 +59,7 @@ class HomePage extends StatelessWidget {
       child: Center(
         child: Text(
           "Title",
-          style: Theme.of(context)
-              .textTheme
-              .displayMedium!
-              .copyWith(color: Colors.white70),
+          style: Theme.of(context).textTheme.displayMedium!.copyWith(color: Colors.white70),
         ),
       ),
     );

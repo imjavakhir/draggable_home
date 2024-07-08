@@ -7,6 +7,12 @@ class DraggableHome extends StatefulWidget {
   @override
   _DraggableHomeState createState() => _DraggableHomeState();
 
+  /// container gradient;
+  final double? toolbarHeight;
+
+  /// toolbarheigh.
+  final LinearGradient? gradient;
+
   /// Leading: A widget to display before the toolbar's title.
   final Widget? leading;
 
@@ -90,6 +96,8 @@ class DraggableHome extends StatefulWidget {
   const DraggableHome({
     Key? key,
     this.leading,
+    this.gradient = const LinearGradient(colors: [Colors.red, Colors.blue]),
+    this.toolbarHeight = kToolbarHeight,
     required this.title,
     this.centerTitle = true,
     this.actions,
@@ -115,8 +123,7 @@ class DraggableHome extends StatefulWidget {
     this.floatingActionButtonAnimator,
     this.physics,
     this.scrollController,
-  })  : assert(headerExpandedHeight > 0.0 &&
-            headerExpandedHeight < stretchMaxHeight),
+  })  : assert(headerExpandedHeight > 0.0 && headerExpandedHeight < stretchMaxHeight),
         assert(
           (stretchMaxHeight > headerExpandedHeight) && (stretchMaxHeight < .95),
         ),
@@ -124,10 +131,8 @@ class DraggableHome extends StatefulWidget {
 }
 
 class _DraggableHomeState extends State<DraggableHome> {
-  final BehaviorSubject<bool> isFullyExpanded =
-      BehaviorSubject<bool>.seeded(false);
-  final BehaviorSubject<bool> isFullyCollapsed =
-      BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> isFullyExpanded = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> isFullyCollapsed = BehaviorSubject<bool>.seeded(false);
 
   @override
   void dispose() {
@@ -138,32 +143,26 @@ class _DraggableHomeState extends State<DraggableHome> {
 
   @override
   Widget build(BuildContext context) {
-    final double appBarHeight =
-        AppBar().preferredSize.height + widget.curvedBodyRadius;
+    final double appBarHeight = AppBar().preferredSize.height + widget.curvedBodyRadius;
 
     final double topPadding = MediaQuery.of(context).padding.top;
 
-    final double expandedHeight =
-        MediaQuery.of(context).size.height * widget.headerExpandedHeight;
+    final double expandedHeight = MediaQuery.of(context).size.height * widget.headerExpandedHeight;
 
-    final double fullyExpandedHeight =
-        MediaQuery.of(context).size.height * (widget.stretchMaxHeight);
+    final double fullyExpandedHeight = MediaQuery.of(context).size.height * (widget.stretchMaxHeight);
 
     return Scaffold(
-      backgroundColor:
-          widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       drawer: widget.drawer,
       body: NotificationListener<ScrollNotification>(
         onNotification: (notification) {
           if (notification.metrics.axis == Axis.vertical) {
             // isFullyCollapsed
-            if ((isFullyExpanded.value) &&
-                notification.metrics.extentBefore > 100) {
+            if ((isFullyExpanded.value) && notification.metrics.extentBefore > 100) {
               isFullyExpanded.add(false);
             }
             //isFullyCollapsed
-            if (notification.metrics.extentBefore >
-                expandedHeight - AppBar().preferredSize.height - 40) {
+            if (notification.metrics.extentBefore > expandedHeight - AppBar().preferredSize.height - 40) {
               if (!(isFullyCollapsed.value)) isFullyCollapsed.add(true);
             } else {
               if ((isFullyCollapsed.value)) isFullyCollapsed.add(false);
@@ -171,8 +170,7 @@ class _DraggableHomeState extends State<DraggableHome> {
           }
           return false;
         },
-        child: sliver(context, appBarHeight, fullyExpandedHeight,
-            expandedHeight, topPadding),
+        child: sliver(context, appBarHeight, fullyExpandedHeight, expandedHeight, topPadding),
       ),
       bottomSheet: widget.bottomSheet,
       bottomNavigationBar: widget.bottomNavigationBar,
@@ -204,8 +202,8 @@ class _DraggableHomeState extends State<DraggableHome> {
             final bool fullyExpanded = streams[1];
 
             return SliverAppBar(
-              backgroundColor:
-                  !fullyCollapsed ? widget.backgroundColor : widget.appBarColor,
+              toolbarHeight: widget.toolbarHeight!,
+              backgroundColor: !fullyCollapsed ? widget.backgroundColor : widget.appBarColor,
               leading: widget.alwaysShowLeadingAndAction
                   ? widget.leading
                   : !fullyCollapsed
@@ -227,45 +225,45 @@ class _DraggableHomeState extends State<DraggableHome> {
                       duration: const Duration(milliseconds: 100),
                       child: widget.title,
                     ),
-              collapsedHeight: appBarHeight,
-              expandedHeight:
-                  fullyExpanded ? fullyExpandedHeight : expandedHeight,
-              flexibleSpace: Stack(
-                children: [
-                  FlexibleSpaceBar(
-                    background: Container(
-                      margin: const EdgeInsets.only(bottom: 0.2),
-                      child: fullyExpanded
-                          ? (widget.expandedBody ?? const SizedBox())
-                          : widget.headerWidget,
+              collapsedHeight: widget.toolbarHeight,
+              expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(gradient: widget.gradient),
+                child: Stack(
+                  children: [
+                    FlexibleSpaceBar(
+                      background: Container(
+                        margin: const EdgeInsets.only(bottom: 0.2),
+                        child: fullyExpanded ? (widget.expandedBody ?? const SizedBox()) : widget.headerWidget,
+                      ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: -1,
-                    left: 0,
-                    right: 0,
-                    child: roundedCorner(context),
-                  ),
-                  Positioned(
-                    bottom: 0 + widget.curvedBodyRadius,
-                    child: AnimatedContainer(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      curve: Curves.easeInOutCirc,
-                      duration: const Duration(milliseconds: 100),
-                      height: fullyCollapsed
-                          ? 0
-                          : fullyExpanded
-                              ? 0
-                              : kToolbarHeight,
-                      width: MediaQuery.of(context).size.width,
-                      child: fullyCollapsed
-                          ? const SizedBox()
-                          : fullyExpanded
-                              ? const SizedBox()
-                              : widget.headerBottomBar ?? Container(),
+                    Positioned(
+                      bottom: -1,
+                      left: 0,
+                      right: 0,
+                      child: roundedCorner(context),
                     ),
-                  )
-                ],
+                    Positioned(
+                      bottom: 0 + widget.curvedBodyRadius,
+                      child: AnimatedContainer(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        curve: Curves.easeInOutCirc,
+                        duration: const Duration(milliseconds: 100),
+                        height: fullyCollapsed
+                            ? 0
+                            : fullyExpanded
+                                ? 0
+                                : kToolbarHeight,
+                        width: MediaQuery.of(context).size.width,
+                        child: fullyCollapsed
+                            ? const SizedBox()
+                            : fullyExpanded
+                                ? const SizedBox()
+                                : widget.headerBottomBar ?? Container(),
+                      ),
+                    )
+                  ],
+                ),
               ),
               stretchTriggerOffset: widget.stretchTriggerOffset,
               onStretchTrigger: widget.fullyStretchable
@@ -285,8 +283,7 @@ class _DraggableHomeState extends State<DraggableHome> {
     return Container(
       height: widget.curvedBodyRadius,
       decoration: BoxDecoration(
-        color:
-            widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+        color: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(widget.curvedBodyRadius),
         ),
@@ -295,19 +292,15 @@ class _DraggableHomeState extends State<DraggableHome> {
   }
 
   SliverList sliverList(BuildContext context, double topHeight) {
-    final double bottomPadding =
-        widget.bottomNavigationBar == null ? 0 : kBottomNavigationBarHeight;
+    final double bottomPadding = widget.bottomNavigationBar == null ? 0 : kBottomNavigationBarHeight;
     return SliverList(
       delegate: SliverChildListDelegate(
         [
           Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height -
-                    topHeight -
-                    bottomPadding,
-                color: widget.backgroundColor ??
-                    Theme.of(context).scaffoldBackgroundColor,
+                height: MediaQuery.of(context).size.height - topHeight - bottomPadding,
+                color: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
               ),
               Column(
                 children: [
