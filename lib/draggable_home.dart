@@ -1,6 +1,7 @@
 library draggable_home;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DraggableHome extends StatefulWidget {
@@ -9,8 +10,9 @@ class DraggableHome extends StatefulWidget {
 
   /// container gradient;
   final double? toolbarHeight;
+  final SystemUiOverlayStyle? systemUiOverlayStyle;
 
-  /// toolbarheigh.
+  /// toolbarheight.
   final LinearGradient? gradient;
 
   /// Leading: A widget to display before the toolbar's title.
@@ -96,7 +98,8 @@ class DraggableHome extends StatefulWidget {
   const DraggableHome({
     Key? key,
     this.leading,
-    this.gradient = const LinearGradient(colors: [Colors.red, Colors.blue]),
+    this.systemUiOverlayStyle,
+    this.gradient,
     this.toolbarHeight = kToolbarHeight,
     required this.title,
     this.centerTitle = true,
@@ -202,6 +205,7 @@ class _DraggableHomeState extends State<DraggableHome> {
             final bool fullyExpanded = streams[1];
 
             return SliverAppBar(
+              systemOverlayStyle: widget.systemUiOverlayStyle!,
               toolbarHeight: widget.toolbarHeight!,
               backgroundColor: !fullyCollapsed ? widget.backgroundColor : widget.appBarColor,
               leading: widget.alwaysShowLeadingAndAction
@@ -228,7 +232,7 @@ class _DraggableHomeState extends State<DraggableHome> {
               collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Container(
-                decoration: BoxDecoration(gradient: widget.gradient),
+                decoration: BoxDecoration(gradient: widget.gradient!),
                 child: Stack(
                   children: [
                     FlexibleSpaceBar(
