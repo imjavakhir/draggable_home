@@ -225,7 +225,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                       duration: const Duration(milliseconds: 100),
                       child: widget.title,
                     ),
-              collapsedHeight: widget.toolbarHeight,
+              collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Container(
                 decoration: BoxDecoration(gradient: widget.gradient),
