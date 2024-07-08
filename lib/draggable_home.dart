@@ -8,11 +8,8 @@ class DraggableHome extends StatefulWidget {
   @override
   _DraggableHomeState createState() => _DraggableHomeState();
 
-  /// container gradient;
   final double? toolbarHeight;
   final SystemUiOverlayStyle? systemUiOverlayStyle;
-
-  /// toolbarheight.
   final LinearGradient? gradient;
 
   /// Leading: A widget to display before the toolbar's title.
@@ -232,7 +229,7 @@ class _DraggableHomeState extends State<DraggableHome> {
               collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Container(
-                decoration: BoxDecoration(gradient: widget.gradient!),
+                decoration: BoxDecoration(gradient: widget.gradient, color: Colors.transparent),
                 child: Stack(
                   children: [
                     FlexibleSpaceBar(
