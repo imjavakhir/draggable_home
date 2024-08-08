@@ -246,7 +246,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                           ),
                         ),
                         Positioned(
-                          bottom: -1,
+                          bottom: -5,
                           top: 0,
                           left: 0,
                           right: 0,
@@ -294,7 +294,6 @@ class _DraggableHomeState extends State<DraggableHome> {
     return Container(
       height: widget.curvedBodyRadius,
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.white, width: 1, strokeAlign: BorderSide.strokeAlignOutside)),
         color: widget.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(widget.curvedBodyRadius),
