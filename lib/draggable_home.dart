@@ -246,14 +246,14 @@ class _DraggableHomeState extends State<DraggableHome> {
                           ),
                         ),
                         Positioned(
-                          bottom: -5,
+                          bottom: -1,
                           top: 0,
                           left: 0,
                           right: 0,
                           child: roundedCorner(context),
                         ),
                         Positioned(
-                          bottom: 0 + widget.curvedBodyRadius,
+                          bottom: -1 + widget.curvedBodyRadius,
                           child: AnimatedContainer(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             curve: Curves.easeInOutCirc,
