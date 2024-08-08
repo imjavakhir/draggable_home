@@ -231,6 +231,7 @@ class _DraggableHomeState extends State<DraggableHome> {
               collapsedHeight: (widget.toolbarHeight! + widget.curvedBodyRadius),
               expandedHeight: fullyExpanded ? fullyExpandedHeight : expandedHeight,
               flexibleSpace: Stack(
+                clipBehavior: Clip.none,
                 children: [
                   if (widget.imageWidget != null) widget.imageWidget!,
                   Container(
@@ -253,7 +254,6 @@ class _DraggableHomeState extends State<DraggableHome> {
                           child: roundedCorner(context),
                         ),
                         Positioned(
-                          top: -1,
                           bottom: 0 + widget.curvedBodyRadius,
                           child: AnimatedContainer(
                             padding: const EdgeInsets.only(left: 10, right: 10),
