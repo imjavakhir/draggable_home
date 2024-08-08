@@ -239,6 +239,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                       gradient: widget.gradient,
                     ),
                     child: Stack(
+                      clipBehavior: Clip.none,
                       children: [
                         FlexibleSpaceBar(
                           background: Container(
@@ -254,6 +255,7 @@ class _DraggableHomeState extends State<DraggableHome> {
                           child: roundedCorner(context),
                         ),
                         Positioned(
+                          top: -1,
                           bottom: 0 + widget.curvedBodyRadius,
                           child: AnimatedContainer(
                             padding: const EdgeInsets.only(left: 10, right: 10),

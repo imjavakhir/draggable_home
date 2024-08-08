@@ -1,8 +1,6 @@
 import 'package:draggable_home/draggable_home.dart';
 import 'package:flutter/material.dart';
 
-import 'camera_preview.dart';
-
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -23,23 +21,28 @@ class HomePage extends StatelessWidget {
     return DraggableHome(
       // leading: const Icon(Icons.arrow_back_ios),
       title: SizedBox(),
-      toolbarHeight: 40,
+      headerExpandedHeight: 0.135,
+      curvedBodyRadius: 20,
+      toolbarHeight: 0,
       // actions: [
       //   IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
       // ],
-      headerWidget: Image.network(
-        'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
-        alignment: Alignment.topCenter,
-        width: double.maxFinite,
-        fit: BoxFit.cover,
-        height: 272,
-      ),
-      headerBottomBar: headerBottomBarWidget(),
+      gradient: LinearGradient(colors: [Colors.blue, Colors.grey]),
+      headerWidget: Stack(children: [
+        Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: 200,
+            decoration: const BoxDecoration(gradient: LinearGradient(colors: [Colors.blue, Colors.grey])),
+          ),
+        ),
+      ]),
+
       body: [
         listView(),
       ],
-      fullyStretchable: true,
-      expandedBody: const CameraPreview(),
+      // fullyStretchable: true,
+
       backgroundColor: Colors.white,
     );
   }
